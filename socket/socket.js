@@ -11,6 +11,8 @@ export const io = new Server(server, {
   },
 });
 
+export const getRecievedSocketId = (recieverId) => {};
+
 io.on("connection", (socket) => {
   console.log("a user connected");
   socket.on("disconnect", () => {

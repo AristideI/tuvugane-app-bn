@@ -12,6 +12,7 @@ import messageRouter from "./routes/message.routes.js";
 import conversationRouter from "./routes/conversation.routes.js";
 import commentRouter from "./routes/comment.routes.js";
 import postRouter from "./routes/post.routes.js";
+import validateUserJWT from "./guards/validateUserJWT.js";
 
 //Configurations
 dotenv.config();
@@ -28,19 +29,19 @@ const port = process.env.PORT || 4000;
 app.use("/auth", authRouter);
 
 //Users routes
-app.use("/users", userRouter);
+app.use("/users", validateUserJWT, userRouter);
 
 //Posts routes
-app.use("/posts", postRouter);
+app.use("/posts", validateUserJWT, postRouter);
 
 //Conversations routes
-app.use("/conversations", conversationRouter);
+app.use("/conversations", validateUserJWT, conversationRouter);
 
 //Messages routes
-app.use("/messages", messageRouter);
+app.use("/messages", validateUserJWT, messageRouter);
 
 //Comments routes
-app.use("/comments", commentRouter);
+app.use("/comments", validateUserJWT, commentRouter);
 
 //Server listening
 server.listen(port, () => {
