@@ -3,7 +3,8 @@ import Post from "../models/post.model.js";
 // create a new post
 export async function createPost(req, res) {
   try {
-    const { authorId, content, image } = req.body;
+    const authorId = req.user._id;
+    const { content, image } = req.body;
     const post = await Post.create({ authorId, content, image });
     return res.status(201).json(post);
   } catch (error) {
@@ -55,8 +56,8 @@ export function getOneUsersPosts(req, res) {
 //like a post
 export async function likePost(req, res) {
   try {
+    const userId = req.user._id;
     const { id } = req.params;
-    const { userId } = req.body;
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -76,8 +77,8 @@ export async function likePost(req, res) {
 //unlike post
 export async function unLikePost(req, res) {
   try {
+    const userId = req.user._id;
     const { id } = req.params;
-    const { userId } = req.body;
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
