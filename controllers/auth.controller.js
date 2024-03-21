@@ -3,18 +3,20 @@ import bcrypt from "bcryptjs";
 import generateToken from "../jwt/generateToken.js";
 
 export async function signup(req, res) {
+  console.log('========================================')
   try {
-    const { fullname, username, email, gender, profilePic } = req.body;
+    const { fullname, username, email, gender, profilePic, password } = req.body;
 
     //check if user already exists
     const userExists = await User.findOne({ $or: [{ username }, { email }] });
+    console.log(userExists)
     if (userExists) {
       return res.status(400).json({ error: "User already exists" });
     }
 
     //hash password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     //create new user
     const newUser = await User.create({
