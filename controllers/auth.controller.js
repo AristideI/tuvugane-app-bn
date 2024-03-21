@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import generateToken from "../jwt/generateToken.js";
 
 export async function signup(req, res) {
-  console.log('========================================')
   try {
     const { fullname, username, email, gender, profilePic, password } = req.body;
 
@@ -42,7 +41,7 @@ export async function login(req, res) {
 
     //check if user exists
     const currentUser = await User.findOne({ username });
-    if (!user) {
+    if (!currentUser) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
